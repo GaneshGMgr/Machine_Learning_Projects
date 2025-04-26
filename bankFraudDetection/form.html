@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Dashboard - Fraud Detection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin: auto;
+            margin-top: 100px;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #3498db;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="number"] {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus {
+            border-color: #3498db;
+        }
+
+        button[type="submit"],
+        button[type="button"] {
+            width: 90px;
+            margin-left: 268px;
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover,
+        button[type="button"]:hover {
+            background-color: #2980b9;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        .sidebar ul li {
+            width: 100%;
+        }
+
+        .sidebar ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            display: block;
+            padding: 15px 20px;
+            text-align: left;
+            transition: background-color 0.3s, padding-left 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #34495e;
+            padding-left: 25px;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+            background-color: #ecf0f1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #3498db;
+            color: #fff;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #3498db;
+            background-color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .header button:hover {
+            background-color: #ecf0f1;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            flex: 1 1 calc(33.333% - 40px);
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #3498db;
+        }
+
+        .card p {
+            margin: 0;
+            flex-grow: 1;
+            color: #555;
+        }
+
+        .card button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .card button:hover {
+            background-color: #2980b9;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #3498db;
+        }
+
+        button[type="submit"],
+        button[type="button"] {
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover,
+        button[type="button"]:hover {
+            background-color: #2980b9;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .fraud {
+            background-color: #e74c3c;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+        }
+
+        .no-fraud {
+            background-color: #27ae60;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loginSection" class="form-container">
+        <!-- <h2>Sign In</h2> -->
+        <img src="Fraud.png" style="margin-left: 210px;">
+        <form onsubmit="loginUser(event)">
+            <label for="email">Email:</label>
+            <input type="email" id="loginEmail" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="loginPassword" name="password" required>
+
+            <button type="submit">Sign In</button>
+        </form>
+        <div class="link">
+            <p>Don't have an account? <a href="#">Register</a></p>
+        </div>
+    </div>
+
+        <div id="dashboardSection" class="hidden">
+            <div class="sidebar">
+                <h2>Bank Dashboard</h2>
+                <ul>
+                    <li><a href="#" onclick="showDashboard()">Home</a></li>
+                    <li><a href="#" onclick="showTransactions()">Transactions</a></li>
+                    <li><a href="#" onclick="showAccounts()">Accounts</a></li>
+                    <li><a href="#" onclick="showFraudDetection()">Fraud Detection</a></li>
+                    <li><a href="#" onclick="showReports()">Reports</a></li>
+                    <li><a href="#" onclick="showSettings()">Settings</a></li>
+                </ul>
+            </div>
+            <div class="main-content" id="mainContent">
+                <div class="header">
+                    <h1>Fraudulent Banking Transactions Detection</h1>
+                    <button onclick="logoutUser()">Logout</button>
+                </div>
+                <div class="dashboard" id="dashboard">
+                    <!-- <div class="row">
+                        <div class="col-lg-3 col-md-3">
+                            <div class="card">
+                                <h3>Recent Transactions</h3>
+                                <p>View your recent transactions and analyze patterns to detect any suspicious activity.</p>
+                                <button onclick="viewTransactions()">View Transactions</button>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="card">
+                        <h3>Recent Transactions</h3>
+                        <p>View your recent transactions and analyze patterns to detect any suspicious activity.</p>
+                        <button onclick="viewTransactions()">View Transactions</button>
+                    </div>
+                    <div class="card">
+                        <h3>Manage Accounts</h3>
+                        <p>Manage your bank accounts, check balances, and review account details.</p>
+                        <button onclick="manageAccounts()">Manage Accounts</button>
+                    </div>
+                    <div class="card">
+                        <h3>Fraud Reports</h3>
+                        <p>Generate and view detailed fraud reports for in-depth analysis.</p>
+                        <button onclick="viewReports()">View Reports</button>
+                    </div>
+                    <div class="card">
+                        <h3>User Settings</h3>
+                        <p>Update your profile, change passwords, and manage user settings.</p>
+                        <button onclick="userSettings()">User Settings</button>
+                    </div>
+                    <div class="card">
+                        <h3>Transaction Analytics</h3>
+                        <p>Analyze your transactions with graphical representations to spot trends and anomalies.</p>
+                        <button onclick="viewAnalytics()">View Analytics</button>
+                    </div>
+                    <div class="card">
+                        <h3>Alerts & Notifications</h3>
+                        <p>Set up alerts and notifications for suspicious activities and account updates.</p>
+                        <button onclick="manageAlerts()">Manage Alerts</button>
+                    </div>
+                </div>
+                <div class="form-container" id="fraudFormContainer" style="display: none;">
+                    <h2>Check Transaction for Fraud</h2>
+                    <form id="transactionForm" onsubmit="return checkForFraud(event)">
+                        <label for="step">Step:</label>
+                        <input type="number" id="step" name="step" required>
+
+                        <label for="type">Type:</label>
+                        <input type="text" id="type" name="type" required>
+
+                        <label for="amount">Amount:</label>
+                        <input type="number" id="amount" name="amount" step="0.01" required>
+
+                        <label for="nameOrig">Name Orig:</label>
+                        <input type="text" id="nameOrig" name="nameOrig" required>
+
+                        <label for="oldbalanceOrg">Old Balance Org:</label>
+                        <input type="number" id="oldbalanceOrg" name="oldbalanceOrg" step="0.01" required>
+
+                        <label for="newbalanceOrig">New Balance Orig:</label>
+                        <input type="number" id="newbalanceOrig" name="newbalanceOrig" step="0.01" required>
+
+                        <label for="nameDest">Name Dest:</label>
+                        <input type="text" id="nameDest" name="nameDest" required>
+
+                        <label for="oldbalanceDest">Old Balance Dest:</label>
+                        <input type="number" id="oldbalanceDest" name="oldbalanceDest" step="0.01" required>
+
+                        <label for="newbalanceDest">New Balance Dest:</label>
+                        <input type="number" id="newbalanceDest" name="newbalanceDest" step="0.01" required>
+
+                        <!-- <label for="isFraud">Is Fraud:</label>
+                        <select id="isFraud" name="isFraud" required>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+        
+                        <label for="isFlaggedFraud">Is Flagged Fraud:</label>
+                        <select id="isFlaggedFraud" name="isFlaggedFraud" required>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option> -->
+                        </select>
+
+
+                        <button type="submit">Check Fraud</button>
+                    </form>
+                    <div class="result" id="fraudResult" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            function showDashboard() {
+    
+                console.log("Showing Dashboard");
+            }
+    
+            function showTransactions() {
+    
+                console.log("Showing Transactions");
+            }
+    
+            function showAccounts() {
+    
+                console.log("Showing Accounts");
+            }
+    
+            function showFraudDetection() {
+    
+                document.getElementById('dashboard').style.display = 'none';
+                document.getElementById('fraudFormContainer').style.display = 'block';
+                console.log("Showing Fraud Detection");
+            }
+    
+            function showReports() {
+    
+                console.log("Showing Reports");
+            }
+    
+            function showSettings() {
+    
+                console.log("Showing Settings");
+            }
+    
+            function checkForFraud(event) {
+                event.preventDefault();
+    
+    
+                let transactionId = document.getElementById('transactionId').value;
+                let amount = parseFloat(document.getElementById('amount').value);
+                let merchant = document.getElementById('merchant').value;
+    
+    
+                let isFraudulent = amount > 5000; 
+    
+                let resultElement = document.getElementById('fraudResult');
+                if (isFraudulent) {
+                    resultElement.textContent = `Transaction ID ${transactionId} with amount ${amount} at ${merchant} is FRAUDULENT!`;
+                    resultElement.classList.add('fraud');
+                } else {
+                    resultElement.textContent = `Transaction ID ${transactionId} with amount ${amount} at ${merchant} is NOT fraudulent.`;
+                    resultElement.classList.add('no-fraud');
+                }
+                resultElement.style.display = 'block';
+            }
+        </script>
+
+        <script>
+            // login
+            function loginUser(event) {
+                event.preventDefault();
+                let email = document.getElementById('loginEmail').value;
+                let password = document.getElementById('loginPassword').value;
+                if (email === 'user@gmail.com' && password === 'user123') {
+                    document.getElementById('loginSection').classList.add('hidden');
+                    document.getElementById('dashboardSection').classList.remove('hidden');
+                } else {
+                    alert('Invalid email or password!');
+                }
+            }
+
+
+            // logout
+            function logoutUser() {
+            document.getElementById('dashboardSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+        }
+        </script>
+</body>
+
+</html>
