@@ -1,19 +1,41 @@
-# Real Estate Home Price Prediction
+# 🏡 Real Estate Home Price Prediction
 
 A user-friendly web application to estimate home prices based on area (sqft), BHK, bathrooms, and location, powered by a trained machine learning regression model with a Flask backend.
 
-## Description  
+---
+
+## 📖 Description
+
 This project leverages a regression model trained on Bangalore housing data to provide price predictions. Users input property details through the frontend, which sends the data to the Flask backend. The backend loads the saved model and returns an estimated price based on the inputs.
 
-## Project Files  
+---
+
+## 📁 Project Files
+
 - `app.html` — Frontend HTML form for user inputs  
 - `app.js` — JavaScript handling input processing and API requests  
 - `server.py` — Flask server providing prediction and location APIs  
 - `util.py` — Utility functions to load artifacts and perform predictions  
 - `artifacts/` — Contains the saved ML model (`home_prices_model.pickle`) and data columns (`columns.json`)  
 
-## Setup & Run  
+---
+
+## ⚙️ Setup & Run
+
 1. Install required Python packages (e.g., Flask, numpy, scikit-learn)  
 2. Start the Flask server:  
-   ```bash
-   python server.py
+
+```bash
+python server.py
+```
+
+---
+
+## 📸 Output Examples
+
+<div align="center">
+  <img src="Output_Price_Prediction/Screenshot 2024-01-08 213755.png" width="300" alt="Sample 1"/>
+  <img src="Output_Price_Prediction/Screenshot 2024-01-08 213837.png" width="300" alt="Sample 2"/>
+</div>
+
+---
